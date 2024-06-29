@@ -61,13 +61,38 @@ def choose_deck(decks):
         print('Invalid choice, please type the deck name correctly.')
         choose_deck(decks)
 
+
+def get_cards(deck):
+    """
+    Get the deck data from the chosen google sheet. First row is the catgories.
+    Returns a list of categories and cards.
+    """
+    cards = SHEET.worksheet(deck).get_all_values()
+    categories = cards.pop(0)
+    return categories, cards
+
+def run_game(deck):
+    """
+    Runs a game of top trumps with the chosen deck
+    """
+    categories, all_cards = get_cards(deck)
+    print(categories)
+    print(all_cards)
+    ##player_cards, computer_cards = shuffle_and_deal(all_cards)
+
+
+
 def main():
     """
     Runs the main program
     """
     option = play_or_edit()
     all_decks = get_decks()
-    deck = choose_deck(all_decks)
-    print(deck)
+    chosen_deck = choose_deck(all_decks)
+    
+    if option == 'p':
+        print(f'Chosen deck = {chosen_deck}')
+        run_game(chosen_deck)
+        
 
 main()
