@@ -16,11 +16,11 @@ SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open('top_trumps')
 
-golfers = SHEET.worksheet('golfers')
+#golfers = SHEET.worksheet('golfers')
 
-data = golfers.get_all_values()
+#data = golfers.get_all_values()
 
-print(data)
+#print(data)
 
 def play_or_edit():
     """
@@ -32,9 +32,31 @@ def play_or_edit():
     while choice.lower() not in valid:
         choice = input("P - Play a game of Top Trumps\nD - Edit / View the game data\nI - Instructions\n")
         if choice.lower() in valid:
-            return choice
+            return choice.lower()
         else:
             print(f"Invalid input, please choose either 'P', 'D' or 'I'")
 
             
-play_or_edit()
+def get_decks():
+    """
+    Pulls the list of worksheet names from the workbook.
+    Displays them to the user as a list of available game decks.
+    Returns a list of game decks.
+    """    
+    decks = []
+    print(f'Available decks:\n')
+    for sh in SHEET.worksheets():
+        decks.append(sh.title)
+        print(f'{sh.title}')
+    return decks
+    
+def main():
+    """
+    Runs the main program
+    """
+    option = play_or_edit()
+    all_decks = get_decks()
+    ##deck = choose_deck()
+
+
+main()
