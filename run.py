@@ -22,3 +22,19 @@ data = golfers.get_all_values()
 
 print(data)
 
+def play_or_edit():
+    """
+    Gets input from the user whether to play a game or edit a databse
+    """
+    print('Welcome to Top Trumps. What would you like to do?\n')
+    choice = ""
+    valid = {'p', 'd', 'i'}
+    while choice.lower() not in valid:
+        choice = input("P - Play a game of Top Trumps\nD - Edit / View the game data\nI - Instructions\n")
+        if choice.lower() in valid:
+            return choice
+        else:
+            print(f"Invalid input, please choose either 'P', 'D' or 'I'")
+
+            
+play_or_edit()
