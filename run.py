@@ -39,7 +39,7 @@ def play_or_edit():
             
 def get_decks():
     """
-    Pulls the list of worksheet names from the workbook.
+    Pull the list of worksheet names from the workbook.
     Displays them to the user as a list of available game decks.
     Returns a list of game decks.
     """    
@@ -49,14 +49,25 @@ def get_decks():
         decks.append(sh.title)
         print(f'{sh.title}')
     return decks
-    
+
+def choose_deck(decks):
+    """
+    Prompt the user to select which deck to use and return the choice
+    """
+    deck_choice = input("Which deck to use?\n")
+    if deck_choice.lower() in decks:
+        return deck_choice.lower()
+    else:
+        print('Invalid choice, please type the deck name correctly.')
+        choose_deck(decks)
+
 def main():
     """
     Runs the main program
     """
     option = play_or_edit()
     all_decks = get_decks()
-    ##deck = choose_deck()
-
+    deck = choose_deck(all_decks)
+    print(deck)
 
 main()
