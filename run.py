@@ -130,8 +130,42 @@ def player_choose_category():
             player_choose_category()
 
 def computer_choose_category():
+    """
+    Return an integer 1 - 6 to indicate the chosen category to display.
+    Logic is to return a random selection
+    """
     cat = random.randrange(6) + 1
     return cat
+
+def create_column(row):
+    """
+    Takes an integer 1-6 as a parameter and creates a list, which is used next to the displayed
+    cards showing which category was chosen for this comparison.
+    """
+    column=[""]
+    for i in range(1,7):
+        if i == row:
+            column.append("-- SELECTED --")
+        else:
+            column.append("")
+    return column
+
+def display_both_cards(categories, card_p, card_c, selected):
+    """
+    Takes 4 lists and displays them all as columns
+    Displays the computer card to the user as a column in the table.
+    Returns the table 
+    """
+    table = PrettyTable()
+    table.add_column("#", ["",1,2,3,4,5,6])
+    table.add_column("Category", categories)
+    table.add_column("Player Card", card_p)
+    table.add_column("Chosen Category", selected)
+    table.add_column("Computer Card", card_c)
+    print (table)
+    input("Press any key to confirm the winner")
+    return table
+
 
 def run_game(deck):
     """
@@ -152,6 +186,11 @@ def run_game(deck):
     else:
         chosen_category = computer_choose_category()
         print(f'The computer has chosen to play the category: {categories[chosen_category]}\n')
+
+    cat_column = create_column(chosen_category)
+        
+    print(cat_column)
+    show = display_both_cards (categories, player_cards[0], computer_cards[0], cat_column)
 
 def main():
     """
