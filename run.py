@@ -5,6 +5,7 @@ import gspread
 from google.oauth2.service_account import Credentials
 from prettytable import PrettyTable
 from random import shuffle
+import random
 
 SCOPE = [
     "https://www.googleapis.com/auth/spreadsheets",
@@ -112,11 +113,31 @@ def display_next_card(categories, card):
     table.add_column("Player Card", card)
     print (table)
 
+def player_choose_category():
+    """
+    Asks the user to input a numer 1-6 corresponding to the displayed categories.
+    Returns an integer 1-6
+    """
+    try:
+        cat = int(input('Player, choose the category to play (1-6)\n'))
+        if cat > 0 and cat < 7:
+            return cat
+        else: 
+            print("Invalid input. Must be a number between 1 and 6, try again\n")
+            player_choose_category()
+    except (ValueError):
+            print("That's not even an integer, it must be an integer between 1 and 6, try again..\n")
+            player_choose_category()
+
+def computer_choose_category():
+    cat = random.randrange(6) + 1
+    return cat
 
 def run_game(deck):
     """
     Runs a game of top trumps with the chosen deck
     """
+    player_turn = False 
     categories, all_cards = get_cards(deck)
     ##print(all_cards)
     player_cards, computer_cards = shuffle_and_deal(all_cards)
@@ -125,6 +146,12 @@ def run_game(deck):
     ##print(f'P2: {computer_cards}')
     display_game_state(len(player_cards), len(computer_cards))
     display_next_card(categories, player_cards[0])
+    if player_turn == True:
+        chosen_category = player_choose_category()
+        print(f'You have chosen to play the category: {categories[chosen_category]}\n')
+    else:
+        chosen_category = computer_choose_category()
+        print(f'The computer has chosen to play the category: {categories[chosen_category]}\n')
 
 def main():
     """
