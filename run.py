@@ -63,12 +63,16 @@ def choose_deck(decks):
 
 def get_cards(deck):
     """
-    Get the deck data from the chosen google sheet. First row is the catgories.
-    Returns a list of categories and cards.
+    Get the deck data from the chosen google sheet. 
+    First row is the catgories.
+    Second row provides winning criteria for each category (high / low)
+    Returns a list of categories, criteria and cards.
     """
     cards = SHEET.worksheet(deck).get_all_values()
     categories = cards.pop(0)
-    return categories, cards
+    criteria = cards.pop(0)
+    print(criteria)
+    return categories, criteria, cards
 
 def shuffle_and_deal(cards):
     """
@@ -145,7 +149,7 @@ def create_column(row):
     column=[""]
     for i in range(1,7):
         if i == row:
-            column.append("-- SELECTED --")
+            column.append("<<<<< ?? >>>>>")
         else:
             column.append("")
     return column
@@ -166,13 +170,36 @@ def display_both_cards(categories, card_p, card_c, selected):
     input("Press any key to confirm the winner")
     return table
 
+def get_winner(criteria, play, comp):
+    """
+    Takes the player and computer values for selected category, and wining criteria
+    as parameters category. Compares the values and returns the winning card 
+    p (player), c (computer) or t(tie)
+    """
+    
+    criteria = criteria.lower()
+    print(criteria, play, comp)
+
+    if play > comp:
+        if criteria == "h":
+            return "p"
+        else:
+            return "c"
+    elif play < comp:
+        if criteria == "h":
+            return "c"
+        else:
+            return "p"
+    else:
+        return "t"
+        
 
 def run_game(deck):
     """
     Runs a game of top trumps with the chosen deck
     """
     player_turn = False 
-    categories, all_cards = get_cards(deck)
+    categories, criteria, all_cards = get_cards(deck)
     ##print(all_cards)
     player_cards, computer_cards = shuffle_and_deal(all_cards)
     ##print(categories)
@@ -188,9 +215,10 @@ def run_game(deck):
         print(f'The computer has chosen to play the category: {categories[chosen_category]}\n')
 
     cat_column = create_column(chosen_category)
-        
-    print(cat_column)
     show = display_both_cards (categories, player_cards[0], computer_cards[0], cat_column)
+    num = chosen_category
+    winner = get_winner(criteria[num], player_cards[0][num], computer_cards[0][num])
+    print (winner)
 
 def main():
     """
