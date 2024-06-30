@@ -17,11 +17,8 @@ SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open('top_trumps')
 
-#golfers = SHEET.worksheet('golfers')
-
-#data = golfers.get_all_values()
-
-#print(data)
+##player_cards = []
+##computer_cards = []
 
 def play_or_edit():
     """
@@ -91,6 +88,19 @@ def shuffle_and_deal(cards):
 
     return hand_one, hand_two
 
+def display_game_state(num1, num2):
+    """
+    Takes two numbers and displays them in a table, showing the number of cards remaining
+    for each player
+    """
+    table = PrettyTable()
+    table.field_names = ["Player", "Cards Remaining"]
+    table.add_rows ([
+        ["Player", num1],
+        ["Computer", num2] 
+    ])
+    
+    print(table)
 
 def run_game(deck):
     """
@@ -99,10 +109,10 @@ def run_game(deck):
     categories, all_cards = get_cards(deck)
     ##print(all_cards)
     player_cards, computer_cards = shuffle_and_deal(all_cards)
-    print(categories)
-    print(f'P1: {player_cards}')
-    print(f'P2: {computer_cards}')
-
+    ##print(categories)
+    ##print(f'P1: {player_cards}')
+    ##print(f'P2: {computer_cards}')
+    display_game_state(len(player_cards), len(computer_cards))
 
 def main():
     """
