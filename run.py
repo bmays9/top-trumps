@@ -4,6 +4,7 @@
 import gspread
 from google.oauth2.service_account import Credentials
 from prettytable import PrettyTable
+from random import shuffle
 
 SCOPE = [
     "https://www.googleapis.com/auth/spreadsheets",
@@ -71,15 +72,36 @@ def get_cards(deck):
     categories = cards.pop(0)
     return categories, cards
 
+def shuffle_and_deal(cards):
+    """
+    Takes a deck of cards in a list, shuffles them and deals them to two players.
+    If the number of cards in the deck is odd, the last card is removed after the shuffle.
+    2 lists (hands) of cards are returned, one for the player and one for the computer
+    """
+    hand_one = []
+    hand_two = []
+    shuffle(cards)
+    
+    if len(cards) % 2 != 0:
+        cards.pop()
+    
+    for i in range(0,len(cards),2):
+        hand_one.append(cards[i])
+        hand_two.append(cards[i+1])
+
+    return hand_one, hand_two
+
+
 def run_game(deck):
     """
     Runs a game of top trumps with the chosen deck
     """
     categories, all_cards = get_cards(deck)
+    ##print(all_cards)
+    player_cards, computer_cards = shuffle_and_deal(all_cards)
     print(categories)
-    print(all_cards)
-    ##player_cards, computer_cards = shuffle_and_deal(all_cards)
-
+    print(f'P1: {player_cards}')
+    print(f'P2: {computer_cards}')
 
 
 def main():
