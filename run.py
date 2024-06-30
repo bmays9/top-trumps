@@ -102,6 +102,17 @@ def display_game_state(num1, num2):
     
     print(table)
 
+def display_next_card(categories, card):
+    """
+    Takes two lists as parameters of equal length and displays them in columns  input Shows the next card in the player's hand to be played.
+    """
+    table = PrettyTable()
+    table.add_column("#", ["",1,2,3,4,5,6])
+    table.add_column("Category", categories)
+    table.add_column("Player Card", card)
+    print (table)
+
+
 def run_game(deck):
     """
     Runs a game of top trumps with the chosen deck
@@ -113,6 +124,7 @@ def run_game(deck):
     ##print(f'P1: {player_cards}')
     ##print(f'P2: {computer_cards}')
     display_game_state(len(player_cards), len(computer_cards))
+    display_next_card(categories, player_cards[0])
 
 def main():
     """
@@ -126,5 +138,4 @@ def main():
         print(f'Chosen deck = {chosen_deck}')
         run_game(chosen_deck)
         
-
 main()
