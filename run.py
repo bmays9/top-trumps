@@ -54,6 +54,8 @@ def choose_deck(decks):
     Prompt the user to select which deck to use and return the choice
     """
     deck_choice = input("Which deck to use?\n")
+    print(f'decks {decks}')
+    print(f'deck choice {deck_choice}')
     if deck_choice.lower() in decks:
         return deck_choice.lower()
     else:
@@ -147,6 +149,7 @@ def computer_choose_category():
     Logic is to return a random selection
     """
     cat = random.randrange(6) + 1
+    input("Press any key to see the Computer's chosen category.\n")
     return cat
 
 
@@ -178,7 +181,7 @@ def display_both_cards(categories, card_p, card_c, selected):
     table.add_column("Chosen Category", selected)
     table.add_column("Computer Card", card_c)
     print(table)
-    input("Press any key to confirm the winner")
+    input("Press any key to confirm the winner\n")
     return table
 
 
@@ -236,36 +239,69 @@ def process_winner(winner, p_hand, c_hand, held):
             print(f"It's a tie! Cards are held for the next winner.\n")
             held.append(p_card)
             held.append(c_card)
-            
+
+
+def end_game_check(p_cards_left, c_cards_left):
+    """
+    Takes the number of cards remaining in each hand as parameters.
+    At least one of the numbers must be zero for the function to be called
+    Prints the winner to the terminal and asks user to play again.
+    Returns y or n as a string
+    """
+    if p_cards_left == 0 & c_cards_left == 0:
+        print("Game Over! It's a draw.\n") 
+    elif p_cards_left == 0:
+        print("Oh no! Computer wins! Better luck next time.\n")
+    else: 
+        print("Congratulations! You win!\n")
+
+    again = input("Play Again? Y/N\n")
+    # Validate input!
+    return again.lower()
+
 
 def run_game(deck):
     """
     Runs a game of top trumps with the chosen deck
     """
     player_turn = False
-    categories, criteria, all_cards = get_cards(deck)
-    # print(all_cards)
-    player_cards, computer_cards = shuffle_and_deal(all_cards)
     held_cards = []
-    display_game_state(len(player_cards), len(computer_cards))
-    display_next_card(categories, player_cards[0])
-    if player_turn is True:
-        chosen_category = player_choose_category()
-        print(f'You have chosen to play the category: \
-        {categories[chosen_category]}\n')
-    else:
-        chosen_category = computer_choose_category()
-        print(f'The computer has chosen to play the category: \
-        {categories[chosen_category]}\n')
+    the_end = False
+    categories, criteria, all_cards = get_cards(deck)
+    
+    player_cards, computer_cards = shuffle_and_deal(all_cards)
+    
+    while the_end == False:
 
-    cat_column = create_column(chosen_category)
-    show = display_both_cards(categories, player_cards[0], computer_cards[0],
-           cat_column)
-    num = chosen_category
-    winner = get_winner(criteria[num], player_cards[0][num],
-             computer_cards[0][num])
-    process_winner(winner, player_cards, computer_cards, held_cards)
+        display_game_state(len(player_cards), len(computer_cards))
+        display_next_card(categories, player_cards[0])
+        if player_turn is True:
+            chosen_category = player_choose_category()
+            print(f'You have chosen to play the category: \
+            {categories[chosen_category]}\n')
+        else:
+            chosen_category = computer_choose_category()
+            print(f'The computer has chosen to play the category: \
+            {categories[chosen_category]}\n')
 
+        cat_column = create_column(chosen_category)
+        show = display_both_cards(categories, player_cards[0], computer_cards[0],
+        cat_column)
+
+        num = chosen_category
+
+        winner = get_winner(criteria[num], player_cards[0][num],
+        computer_cards[0][num])
+
+        process_winner(winner, player_cards, computer_cards, held_cards)
+        print(f'Player: {len(player_cards)}')
+        print(f'Comp: {len(computer_cards)}')
+        if min(len(player_cards), len(computer_cards)) < 1:
+            the_end = True
+
+
+    play_again = end_game_check(len(player_cards), len(computer_cards))
+    return play_again
 
 def main():
     """
@@ -277,7 +313,8 @@ def main():
 
     if option == 'p':
         print(f'Chosen deck = {chosen_deck}')
-        run_game(chosen_deck)
+        another_game = run_game(chosen_deck)
 
+    print(another_game)
 
 main()
