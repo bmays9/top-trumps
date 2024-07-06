@@ -129,20 +129,17 @@ def display_next_card(categories, card):
 
 def player_choose_category():
     """
-    Asks the user to input a numer 1-6 corresponding to the displayed
-    categories. Returns an integer 1-6.
+    Asks the user to input a number 1-6 corresponding to the displayed
+    categories. Returns the integer value.
     """
-    try:
-        cat = int(input('Player, choose the category to play (1-6)\n'))
-        if cat > 0 and cat < 7:
-            return cat
+    valid = ["1", "2", "3", "4", "5", "6"]
+    cat = ""
+    while True:
+        cat = input('Player, choose the category to play (1-6)\n')
+        if cat in valid:
+            return int(cat)
         else:
             print("Invalid input. Must be an integer 1-6, try again.\n")
-            player_choose_category()
-    except (ValueError):
-        print("That's not even an integer, it must be a number\
-        1-6, try again...\n")
-        player_choose_category()
 
 
 def computer_choose_category():
@@ -251,7 +248,7 @@ def end_game_check(p_cards_left, c_cards_left):
     Prints the winner to the terminal and asks user to play again.
     Returns y or n as a string
     """
-    if p_cards_left == 0 & c_cards_left == 0:
+    if p_cards_left == 0 and c_cards_left == 0:
         print("Game Over! It's a draw.\n") 
     elif p_cards_left == 0:
         print("Oh no! Computer wins! Better luck next time.\n")
