@@ -255,8 +255,11 @@ def end_game_check(p_cards_left, c_cards_left):
     else: 
         print("Congratulations! You win this game!\n")
 
-    again = input("Play Again? Y/N\n")
-    # Validate input!
+    print('Enter "Y" to play again with the same deck,')
+    print('"M" to return to the main menu,') 
+    print('or "Q" to quit.')
+    again = input("Please choose:\n")
+    
     return again.lower()
 
 
@@ -306,6 +309,7 @@ def main():
     """
     Runs the main program
     """
+        
     option = play_or_edit()
     all_decks = get_decks()
     chosen_deck = choose_deck(all_decks)
@@ -314,7 +318,10 @@ def main():
         print(f"\n{chosen_deck} deck of cards selected. Let's play Top Trumps!\n")
         another_game = run_game(chosen_deck)
 
-    print(another_game)
+    if another_game == 'y':
+        run_game(chosen_deck)
+    if another_game == 'm':
+        main()
 
 
 main()
