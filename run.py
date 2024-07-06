@@ -53,15 +53,15 @@ def choose_deck(decks):
     """
     Prompt the user to select which deck to use and return the choice
     """
-    deck_choice = input("Which deck to use?\n")
-    print(f'decks {decks}')
-    print(f'deck choice {deck_choice}')
-    if deck_choice.lower() in decks:
-        return deck_choice.lower()
-    else:
-        print('Invalid choice, please type the deck name correctly.')
-        choose_deck(decks)
-
+    deck_choice = ""
+    while deck_choice.lower() not in decks:
+        deck_choice = input("\nWhich deck to use?\n")
+                
+        if deck_choice.lower() in decks:
+            return deck_choice.lower()
+        else:
+            print('Invalid choice, please type the deck name correctly.')
+            
 
 def get_cards(deck):
     """
@@ -256,7 +256,7 @@ def end_game_check(p_cards_left, c_cards_left):
     elif p_cards_left == 0:
         print("Oh no! Computer wins! Better luck next time.\n")
     else: 
-        print("Congratulations! You win!\n")
+        print("Congratulations! You win this game!\n")
 
     again = input("Play Again? Y/N\n")
     # Validate input!
@@ -314,7 +314,7 @@ def main():
     chosen_deck = choose_deck(all_decks)
 
     if option == 'p':
-        print(f'Chosen deck = {chosen_deck}')
+        print(f"\n{chosen_deck} deck of cards selected. Let's play Top Trumps!\n")
         another_game = run_game(chosen_deck)
 
     print(another_game)
