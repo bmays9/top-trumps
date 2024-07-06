@@ -111,6 +111,7 @@ def display_game_state(num1, num2):
     ])
 
     print(table)
+    input("Press any key to see your next card.\n")
 
 
 def display_next_card(categories, card):
@@ -118,11 +119,12 @@ def display_next_card(categories, card):
     Takes two lists as parameters of equal length and displays them in columns.
     Shows the player their next card to be played.
     """
+    print("\nHere's your next card..\n")
     table = PrettyTable()
     table.add_column("#", ["", 1, 2, 3, 4, 5, 6])
     table.add_column("Category", categories)
     table.add_column("Player Card", card)
-    print(table)
+    print(f'{table}\n')
 
 
 def player_choose_category():
@@ -180,31 +182,32 @@ def display_both_cards(categories, card_p, card_c, selected):
     table.add_column("Player Card", card_p)
     table.add_column("Chosen Category", selected)
     table.add_column("Computer Card", card_c)
-    print(table)
+    print(f'{table}\n')
     input("Press any key to confirm the winner\n")
     return table
 
 
-def get_winner(criteria, play, comp):
+def get_winner(criteria, play, comp, turn):
     """
     Takes the player and computer values for selected category, and winning
     criteria as parameters category. Compares the values and returns the
-    result: p (player), c (computer) or t (tie)
+    result: p (player), c (computer) or t (tie) and True or False for the
+    player_turn variable.
     """
     criteria = criteria.lower()
     
     if int(play) > int(comp):
         if criteria == "h":
-            return "p"
+            return "p", True
         else:
-            return "c"
+            return "c" , False
     elif int(play) < int(comp):
         if criteria == "h":
-            return "c"
+            return "c" , False
         else:
-            return "p"
+            return "p" , True
     else:
-        return "t"
+        return "t" , True, turn
 
 
 def process_winner(winner, p_hand, c_hand, held):
@@ -221,20 +224,20 @@ def process_winner(winner, p_hand, c_hand, held):
             print(f'Computer wins!\n')
             c_hand.append(c_card)
             c_hand.append(p_card)
-            print(f'c:{c_hand}')
-            print(f'p:{p_hand}')
+
             for i in range(0, len(held)):
                 c_hand.append(held[i])
             held=[]
+
         case 'p':
-            print(f'Player wins!\n')
+            print(f'You win this one!\n')
             p_hand.append(p_card)
             p_hand.append(c_card)
-            print(f'c:{c_hand}')
-            print(f'p:{p_hand}')
+
             for i in range(0, len(held)):
                 p_hand.append(held[i])
             held=[]
+
         case 't':
             print(f"It's a tie! Cards are held for the next winner.\n")
             held.append(p_card)
@@ -264,7 +267,7 @@ def run_game(deck):
     """
     Runs a game of top trumps with the chosen deck
     """
-    player_turn = False
+    player_turn = True
     held_cards = []
     the_end = False
     categories, criteria, all_cards = get_cards(deck)
@@ -278,11 +281,11 @@ def run_game(deck):
         if player_turn is True:
             chosen_category = player_choose_category()
             print(f'You have chosen to play the category: \
-            {categories[chosen_category]}\n')
+{categories[chosen_category]}\n')
         else:
             chosen_category = computer_choose_category()
             print(f'The computer has chosen to play the category: \
-            {categories[chosen_category]}\n')
+{categories[chosen_category]}\n')
 
         cat_column = create_column(chosen_category)
         show = display_both_cards(categories, player_cards[0], computer_cards[0],
@@ -290,18 +293,17 @@ def run_game(deck):
 
         num = chosen_category
 
-        winner = get_winner(criteria[num], player_cards[0][num],
-        computer_cards[0][num])
+        winner, player_turn = get_winner(criteria[num], player_cards[0][num],
+        computer_cards[0][num], player_turn)
 
         process_winner(winner, player_cards, computer_cards, held_cards)
-        print(f'Player: {len(player_cards)}')
-        print(f'Comp: {len(computer_cards)}')
+
         if min(len(player_cards), len(computer_cards)) < 1:
             the_end = True
 
-
     play_again = end_game_check(len(player_cards), len(computer_cards))
     return play_again
+
 
 def main():
     """
@@ -316,5 +318,6 @@ def main():
         another_game = run_game(chosen_deck)
 
     print(another_game)
+
 
 main()
