@@ -25,14 +25,14 @@ def play_or_edit():
     """
     print('Welcome to Top Trumps. What would you like to do?\n')
     choice = ""
-    valid = {'p', 'd', 'i'}
+    valid = {'p', 'e', 'i'}
     while choice.lower() not in valid:
-        choice = input("P - Play a game of Top Trumps\nD - Edit / View the \
+        choice = input("P - Play a game of Top Trumps\nE - Edit / View the \
 game data\nI - Instructions\n")
         if choice.lower() in valid:
             return choice.lower()
         else:
-            print(f"Invalid input, please choose either 'P', 'D' or 'I'")
+            print(f"Invalid input, please choose either 'P', 'E' or 'I'")
 
 
 def get_decks():
@@ -263,6 +263,39 @@ def end_game_check(p_cards_left, c_cards_left):
     return again.lower()
 
 
+def get_all_names(deck):
+    '''
+    Pulls the list of card names from the spreadsheet. 
+    Card names are in Column A from Row 3 onwards.
+    Returns the list of names.
+    '''
+    names = SHEET.worksheet(deck).col_values(1)
+    names.pop(0)
+    names.pop(0)
+    return names
+
+
+def display_all_names(names):
+    """
+    Takes a list of names and prints them in a table 
+    """
+    print("\nHere's the list of cards in the deck:\n")
+    table = PrettyTable()
+    table.add_column("Names", names)
+    print(f'{table}\n')
+
+
+def edit_data(deck):
+    """
+    Runs the program for editing the spreadsheet data.
+    """
+    print(f'You have chosen to edit the database: {deck}\n')
+    all_names = get_all_names(deck)
+    display_all_names(all_names)
+    #categories, criteria, all_cards = get_cards(deck)
+    #add_edit_delete(all_names)
+
+
 def run_game(deck):
     """
     Runs a game of top trumps with the chosen deck
@@ -317,6 +350,11 @@ def main():
     if option == 'p':
         print(f"\n{chosen_deck} deck of cards selected. Let's play Top Trumps!\n")
         another_game = run_game(chosen_deck)
+    elif option == 'i':
+        instructions()
+
+    elif option == 'e':
+        edit_data(chosen_deck)
 
     if another_game == 'y':
         run_game(chosen_deck)
