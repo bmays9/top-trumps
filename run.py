@@ -276,10 +276,13 @@ def get_all_names(deck):
 
 def display_all_names(names):
     """
-    Takes a list of names and prints them in a table
+    Takes a list of names and prints them in a table.
+    Table Rows are numbered.
     """
     print("\nHere's the list of cards in the deck:\n")
+    row_num = [i for i in range(1, len(names)+1)]
     table = PrettyTable()
+    table.add_column("No.", row_num)
     table.add_column("Names", names)
     print(f'{table}\n')
 
@@ -300,6 +303,52 @@ def get_edit_type():
             print("Invalid input. You must choose A, E or D")
 
 
+def add_card(deck, names, cats):
+    """
+    Prompts user to enter a new card name and validates against duplicates. 
+    Requests entry of data and validates it.
+    Input of "Quit" takes user back to the menu
+    """
+    names_lower = []
+    for x in names:
+        names_lower.append(x.lower())
+
+    new_data = []
+    print("Enter a new card name, (card must not already exist)")
+    print("Max length = 20")
+    
+    while True:
+        new_name = input("Name:\n")
+        new_name_lower = new_name.lower()
+        
+        if validate_name(new_name_lower, names_lower):
+            print("Valid new card name.")
+            break
+
+    
+    print("Enter new data - 6 numbers separated by commas.")
+    print("Example: 15, 600, 8812, 12, 333, 66")
+    
+    new_data = input("Data:\n")
+    
+
+def validate_name(new, existing):
+    """
+    Validates user input (new) as a string and compares against
+    existing names.
+    Returns True if valid input 
+    """
+    if len(new) > 20:
+        print("Name is too long, try again")
+        return False
+
+    if new in existing:
+        print("Card already exists. Enter a new name or 'Quit' to exit\n")
+        return False
+
+    print(f'{new} is a valid name. Please enter the data.\n')
+    return True
+
 
 def edit_data(deck):
     """
@@ -311,8 +360,19 @@ def edit_data(deck):
     all_names = get_all_names(deck)
     display_all_names(all_names)
     edit_type = get_edit_type()
+    
+    match edit_type:
+        case 'a':
+            add_card(deck, all_names, categories)
+        case 'e':
+            print("e")
+            # edit_card(deck, all_cards)
+        case 'd':
+            print("d")
+            # delete_card(deck, all_names)
+
     print(edit_type)
-    # add_edit_delete(all_names)
+    
 
 
 def run_game(deck):
