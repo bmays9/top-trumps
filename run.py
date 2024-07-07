@@ -342,13 +342,13 @@ def add_card(deck, names, cats):
         check = validate_data(new_values)
 
         if check:
-            print("Data is valid")
+            print("\nData is valid - card accepted\n")
             break
 
     for x in new_values:
         new_card.append(x)    
 
-    print(new_card)
+    add_to_deck(new_card, deck)
 
 
 def validate_name(new, existing):
@@ -389,6 +389,15 @@ def validate_data(data):
         return False
     
     return True
+
+
+def add_to_deck(card, deck):
+    print("Updating card deck..\n")
+    this_sheet = SHEET.worksheet(deck)
+    this_sheet.append_row(card)
+    print("Card has been added to the deck.\n")
+
+
 
 def edit_data(deck):
     """
