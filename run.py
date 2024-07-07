@@ -307,13 +307,12 @@ def add_card(deck, names, cats):
     """
     Prompts user to enter a new card name and validates against duplicates. 
     Requests entry of data and validates it.
-    Input of "Quit" takes user back to the menu
     """
     names_lower = []
+    new_card = []
     for x in names:
         names_lower.append(x.lower())
 
-    new_data = []
     print("Enter a new card name, (card must not already exist)")
     print("Max length = 20")
     
@@ -322,15 +321,35 @@ def add_card(deck, names, cats):
         new_name_lower = new_name.lower()
         
         if validate_name(new_name_lower, names_lower):
-            print("Valid new card name.")
+            print("New card name accepted.\n")
+            break
+    
+    new_card.append(new_name)
+    print(f'Please enter the data for {new_name}\n')
+    
+    while True:
+        print("Enter data for each category, in order")
+        print("Data will be six numbers, separated by a comma.")
+        print("Example: 1111, 2222, 3333333, 444, 55, 6")
+        print("Categories are:\n")
+
+        for cat in range(1,7):
+
+            print(cats[cat])
+
+        new_data = input("\nData: \n")
+        new_values = new_data.split(",")
+        check = validate_data(new_values)
+
+        if check:
+            print("Data is valid")
             break
 
-    
-    print("Enter new data - 6 numbers separated by commas.")
-    print("Example: 15, 600, 8812, 12, 333, 66")
-    
-    new_data = input("Data:\n")
-    
+    for x in new_values:
+        new_card.append(x)    
+
+    print(new_card)
+
 
 def validate_name(new, existing):
     """
@@ -346,9 +365,30 @@ def validate_name(new, existing):
         print("Card already exists. Enter a new name or 'Quit' to exit\n")
         return False
 
-    print(f'{new} is a valid name. Please enter the data.\n')
     return True
 
+
+def validate_data(data):
+    """
+    Takes a list as a variable. Converst all string values to
+    integers. Raises a ValueError if strings cannot be converted to 
+    integers, or if there aren't exactly numbers. 
+    Credit to CodeInstitute LoveSandwiches exercise for the
+    basis of this code.
+    """
+
+    try:
+        [int(value) for value in data]
+        if len(data) != 6:
+            raise ValueError(
+                f"Exactly 6 numbers are required, you only entered \
+{len(data)}."
+            )
+    except ValueError as e:
+        print(f"Invalid data: {e}, please try again.\n")
+        return False
+    
+    return True
 
 def edit_data(deck):
     """
