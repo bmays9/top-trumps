@@ -56,12 +56,12 @@ def choose_deck(decks):
     deck_choice = ""
     while deck_choice.lower() not in decks:
         deck_choice = input("\nWhich deck to use?\n")
-                
+
         if deck_choice.lower() in decks:
             return deck_choice.lower()
         else:
             print('Invalid choice, please type the deck name correctly.')
-            
+
 
 def get_cards(deck):
     """
@@ -73,7 +73,6 @@ def get_cards(deck):
     cards = SHEET.worksheet(deck).get_all_values()
     categories = cards.pop(0)
     criteria = cards.pop(0)
-    print(criteria)
     return categories, criteria, cards
 
 
@@ -192,19 +191,19 @@ def get_winner(criteria, play, comp, turn):
     player_turn variable.
     """
     criteria = criteria.lower()
-    
+
     if int(play) > int(comp):
         if criteria == "h":
             return "p", True
         else:
-            return "c" , False
+            return "c", False
     elif int(play) < int(comp):
         if criteria == "h":
-            return "c" , False
+            return "c", False
         else:
-            return "p" , True
+            return "p", True
     else:
-        return "t" , True, turn
+        return "t", True, turn
 
 
 def process_winner(winner, p_hand, c_hand, held):
@@ -224,7 +223,7 @@ def process_winner(winner, p_hand, c_hand, held):
 
             for i in range(0, len(held)):
                 c_hand.append(held[i])
-            held=[]
+            held = []
 
         case 'p':
             print(f'You win this one!\n')
@@ -233,7 +232,7 @@ def process_winner(winner, p_hand, c_hand, held):
 
             for i in range(0, len(held)):
                 p_hand.append(held[i])
-            held=[]
+            held = []
 
         case 't':
             print(f"It's a tie! Cards are held for the next winner.\n")
@@ -249,23 +248,23 @@ def end_game_check(p_cards_left, c_cards_left):
     Returns y or n as a string
     """
     if p_cards_left == 0 and c_cards_left == 0:
-        print("Game Over! It's a draw.\n") 
+        print("Game Over! It's a draw.\n")
     elif p_cards_left == 0:
         print("Oh no! Computer wins! Better luck next time.\n")
-    else: 
+    else:
         print("Congratulations! You win this game!\n")
 
     print('Enter "Y" to play again with the same deck,')
-    print('"M" to return to the main menu,') 
+    print('"M" to return to the main menu,')
     print('or "Q" to quit.')
     again = input("Please choose:\n")
-    
+
     return again.lower()
 
 
 def get_all_names(deck):
     '''
-    Pulls the list of card names from the spreadsheet. 
+    Pulls the list of card names from the spreadsheet.
     Card names are in Column A from Row 3 onwards.
     Returns the list of names.
     '''
@@ -277,7 +276,7 @@ def get_all_names(deck):
 
 def display_all_names(names):
     """
-    Takes a list of names and prints them in a table 
+    Takes a list of names and prints them in a table
     """
     print("\nHere's the list of cards in the deck:\n")
     table = PrettyTable()
@@ -285,28 +284,49 @@ def display_all_names(names):
     print(f'{table}\n')
 
 
+def get_edit_type():
+    """
+    Asks the user to input how they want to edit the data.
+    Returns their validated choice.
+    """
+
+    valid = ["a", "e", "d"]
+    choice = ""
+    while True:
+        choice = input('Do you want to (E)dit (A)dd or (D)elete a record?\n')
+        if choice.lower() in valid:
+            return choice.lower()
+        else:
+            print("Invalid input. You must choose A, E or D")
+
+
+
 def edit_data(deck):
     """
     Runs the program for editing the spreadsheet data.
+    Function takes one parameter containing the deck name.
     """
     print(f'You have chosen to edit the database: {deck}\n')
+    categories, criteria, all_cards = get_cards(deck)
     all_names = get_all_names(deck)
     display_all_names(all_names)
-    #categories, criteria, all_cards = get_cards(deck)
-    #add_edit_delete(all_names)
+    edit_type = get_edit_type()
+    print(edit_type)
+    # add_edit_delete(all_names)
 
 
 def run_game(deck):
     """
-    Runs a game of top trumps with the chosen deck
+    Runs a game of top trumps with the chosen deck.
+    Function takes one parameter containing the deck name.
     """
     player_turn = True
     held_cards = []
     the_end = False
     categories, criteria, all_cards = get_cards(deck)
-    
+
     player_cards, computer_cards = shuffle_and_deal(all_cards)
-    
+
     while the_end == False:
 
         display_game_state(len(player_cards), len(computer_cards))
@@ -321,13 +341,13 @@ def run_game(deck):
 {categories[chosen_category]}\n')
 
         cat_column = create_column(chosen_category)
-        show = display_both_cards(categories, player_cards[0], computer_cards[0],
-        cat_column)
+        show = display_both_cards(categories, player_cards[0], 
+computer_cards[0], cat_column)
 
         num = chosen_category
 
         winner, player_turn = get_winner(criteria[num], player_cards[0][num],
-        computer_cards[0][num], player_turn)
+computer_cards[0][num], player_turn)
 
         process_winner(winner, player_cards, computer_cards, held_cards)
 
@@ -342,13 +362,14 @@ def main():
     """
     Runs the main program
     """
-        
+
     option = play_or_edit()
     all_decks = get_decks()
     chosen_deck = choose_deck(all_decks)
 
     if option == 'p':
-        print(f"\n{chosen_deck} deck of cards selected. Let's play Top Trumps!\n")
+        print(f"\n{chosen_deck} deck of cards selected. \
+    Let's play Top Trumps!\n")
         another_game = run_game(chosen_deck)
     elif option == 'i':
         instructions()
