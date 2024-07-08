@@ -326,25 +326,9 @@ def add_card(deck, names, cats):
     
     new_card.append(new_name)
     print(f'Please enter the data for {new_name}\n')
+
+    new_values = get_new_card_data(cats)
     
-    while True:
-        print("Enter data for each category, in order")
-        print("Data will be six numbers, separated by a comma.")
-        print("Example: 1111, 2222, 3333333, 444, 55, 6")
-        print("Categories are:\n")
-
-        for cat in range(1,7):
-
-            print(cats[cat])
-
-        new_data = input("\nData: \n")
-        new_values = new_data.split(",")
-        check = validate_data(new_values)
-
-        if check:
-            print("\nData is valid - card accepted\n")
-            break
-
     for x in new_values:
         new_card.append(x)    
 
@@ -403,7 +387,7 @@ def edit_card(deck, names, cats):
     Runs the edit card process
     """
     while True:
-        card_num = int(input('Which card number do you want to edit\n'))
+        card_num = int(input('Which card number do you want to edit?\n'))
         if card_num > 0 and card_num < len(names) + 1:
             print(f"You have chosen to edit card: {names[card_num - 1]}\n")
             break
@@ -412,7 +396,8 @@ def edit_card(deck, names, cats):
     
     card = get_card_data(deck,card_num)
     display_next_card(cats, card)
-    # get_new_card_data()
+    new_values = get_new_card_data(cats)
+    print(new_values)
  
 
 def get_card_data(deck, card):
@@ -424,6 +409,31 @@ def get_card_data(deck, card):
     return card_data
 
 
+def get_new_card_data(cats):
+    """
+    Takes input from the user for new card data. 
+    Format is 6 integers, separated by commas.
+    Returns a list of 6 integers. 
+    """
+    while True:
+        print("Enter data for each category, in order")
+        print("Data will be six numbers, separated by a comma.")
+        print("Example: 1111, 2222, 3333333, 444, 55, 6")
+        print("Categories are:\n")
+
+        for cat in range(1,7):
+
+            print(cats[cat])
+
+        new_data = input("\nData: \n")
+        new_values = new_data.split(",")
+        check = validate_data(new_values)
+
+        if check:
+            print("\nData is valid - card accepted\n")
+            break
+    
+    return new_values
 
 def edit_data(deck):
     """
