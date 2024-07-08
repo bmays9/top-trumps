@@ -398,6 +398,32 @@ def add_to_deck(card, deck):
     print("Card has been added to the deck.\n")
 
 
+def edit_card(deck, names, cats):
+    """
+    Runs the edit card process
+    """
+    while True:
+        card_num = int(input('Which card number do you want to edit\n'))
+        if card_num > 0 and card_num < len(names) + 1:
+            print(f"You have chosen to edit card: {names[card_num - 1]}\n")
+            break
+        else:
+            print("Invalid input. Please select a valid number.\n")
+    
+    card = get_card_data(deck,card_num)
+    display_next_card(cats, card)
+    # get_new_card_data()
+ 
+
+def get_card_data(deck, card):
+    '''
+    Pulls the card data from the spreadsheet
+    First card is on row three, so the + 2 is required.
+    '''
+    card_data = SHEET.worksheet(deck).row_values(card + 2)
+    return card_data
+
+
 
 def edit_data(deck):
     """
@@ -414,8 +440,7 @@ def edit_data(deck):
         case 'a':
             add_card(deck, all_names, categories)
         case 'e':
-            print("e")
-            # edit_card(deck, all_cards)
+            edit_card(deck, all_names, categories)
         case 'd':
             print("d")
             # delete_card(deck, all_names)
