@@ -293,14 +293,16 @@ def get_edit_type():
     Returns their validated choice.
     """
 
-    valid = ["a", "e", "d"]
+    valid = ["a", "e", "d", "m"]
     choice = ""
     while True:
-        choice = input('Do you want to (E)dit (A)dd or (D)elete a record?\n')
+        print('Do you want to (E)dit (A)dd or (D)elete a record?')
+        choice = input('Or return to the game (M)enu?\n')
+
         if choice.lower() in valid:
             return choice.lower()
         else:
-            print("Invalid input. You must choose A, E or D")
+            print("Invalid input. You must choose A, E, D or M")
 
 
 def add_card(deck, names, cats):
@@ -393,19 +395,29 @@ def update_deck(card, deck, card_number):
     print("Update complete.\n")
     return True
 
-def edit_card(deck, names, cats):
+
+def get_card_number(names):
     """
-    Runs the edit card process
+    Prompts the user to choose a card number to edit or delete
+    Validates the input and returns the card number.
     """
     while True:
         card_num = int(input('Which card number do you want to edit?\n'))
         if card_num > 0 and card_num < len(names) + 1:
-            name_to_edit = names[card_num - 1]
-            print(f"You have chosen to edit card: {name_to_edit}\n")
+            name = names[card_num - 1]
+            print(f"You have chosen card: {name}\n")
             break
         else:
             print("Invalid input. Please select a valid number.\n")
-    
+
+    return card_num, name
+
+
+def edit_card(deck, names, cats):
+    """
+    Runs the edit card process
+    """
+    card_num, name_to_edit = get_card_number(names)
     new_row_data = [name_to_edit]
     card = get_card_data(deck,card_num)
     display_next_card(cats, card)
@@ -451,6 +463,21 @@ def get_new_card_data(cats):
     
     return new_values
 
+
+def delete_card(deck, names):
+    """
+    Deletes a card from te deck, removes the row from the worksheet
+    """
+    card_num, name = get_card_number(names)
+    print("\nAre you sure you want to delete?\n")
+    confirm = input('Enter "Y" to confirm')
+    if confirm.lower() == "y":
+        print("delete(card)")
+    else:
+        print("Card not deleted and remains in the deck")
+        # quit
+
+
 def edit_data(deck):
     """
     Runs the program for editing the spreadsheet data.
@@ -458,11 +485,10 @@ def edit_data(deck):
     """
     print(f'You have chosen to edit the database: {deck}\n')
     categories, criteria, all_cards = get_cards(deck)
-
+    # while editing = True:
     all_names = get_all_names(deck)
     display_all_names(all_names)
     edit_type = get_edit_type()
-    
     match edit_type:
         case 'a':
             add_card(deck, all_names, categories)
@@ -470,11 +496,7 @@ def edit_data(deck):
             edit_card(deck, all_names, categories)
         case 'd':
             delete_card(deck, all_names)
-
     
-    
-
-
 
 def run_game(deck):
     """
