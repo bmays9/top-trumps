@@ -381,6 +381,17 @@ def add_to_deck(card, deck):
     this_sheet.append_row(card)
     print("Card has been added to the deck.\n")
 
+def update_deck(card, deck, card_number):
+    """
+    Takes the necessary information to update a row in the 
+    worksheet
+    """
+    print("Updating card deck with new data..\n")
+    this_sheet = SHEET.worksheet(deck)
+    row_num = card_number + 2
+    this_sheet.update(f'A{row_num}:G{row_num}', [card])
+    print("Update complete.\n")
+    return True
 
 def edit_card(deck, names, cats):
     """
@@ -389,15 +400,20 @@ def edit_card(deck, names, cats):
     while True:
         card_num = int(input('Which card number do you want to edit?\n'))
         if card_num > 0 and card_num < len(names) + 1:
-            print(f"You have chosen to edit card: {names[card_num - 1]}\n")
+            name_to_edit = names[card_num - 1]
+            print(f"You have chosen to edit card: {name_to_edit}\n")
             break
         else:
             print("Invalid input. Please select a valid number.\n")
     
+    new_row_data = [name_to_edit]
     card = get_card_data(deck,card_num)
     display_next_card(cats, card)
     new_values = get_new_card_data(cats)
-    print(new_values)
+    for num in new_values:
+        new_row_data.append(num)
+    print(new_row_data)
+    update_deck(new_row_data, deck, card_num)
  
 
 def get_card_data(deck, card):
@@ -442,6 +458,7 @@ def edit_data(deck):
     """
     print(f'You have chosen to edit the database: {deck}\n')
     categories, criteria, all_cards = get_cards(deck)
+
     all_names = get_all_names(deck)
     display_all_names(all_names)
     edit_type = get_edit_type()
@@ -452,11 +469,11 @@ def edit_data(deck):
         case 'e':
             edit_card(deck, all_names, categories)
         case 'd':
-            print("d")
-            # delete_card(deck, all_names)
+            delete_card(deck, all_names)
 
-    print(edit_type)
     
+    
+
 
 
 def run_game(deck):
@@ -485,13 +502,14 @@ def run_game(deck):
 {categories[chosen_category]}\n')
 
         cat_column = create_column(chosen_category)
-        show = display_both_cards(categories, player_cards[0], 
-computer_cards[0], cat_column)
+        show = display_both_cards(
+            categories, player_cards[0], computer_cards[0], cat_column)
 
         num = chosen_category
 
-        winner, player_turn = get_winner(criteria[num], player_cards[0][num],
-computer_cards[0][num], player_turn)
+        winner, player_turn = get_winner(
+            criteria[num], player_cards[0][num], 
+            computer_cards[0][num], player_turn)
 
         process_winner(winner, player_cards, computer_cards, held_cards)
 
