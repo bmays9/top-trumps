@@ -42,7 +42,7 @@ def get_decks():
     Returns a list of game decks.
     """
     decks = []
-    print(f'Available decks:\n')
+    print(f'\nAvailable decks:\n')
     for sh in SHEET.worksheets():
         decks.append(sh.title)
         print(f'{sh.title}')
@@ -55,7 +55,7 @@ def choose_deck(decks):
     """
     deck_choice = ""
     while deck_choice.lower() not in decks:
-        deck_choice = input("\nWhich deck to use?\n")
+        deck_choice = input("\nWhich deck to use? (type the full name)\n")
 
         if deck_choice.lower() in decks:
             return deck_choice.lower()
@@ -498,27 +498,30 @@ def edit_data(deck):
     Function takes one parameter containing the deck name.
     """
     print(f'You have chosen to edit the database: {deck}\n')
-    categories, criteria, all_cards = get_cards(deck)
-    # while editing = True:
-    all_names = get_all_names(deck)
-    display_all_names(all_names)
-    edit_type = get_edit_type()
-    match edit_type:
-        case 'a':
-            print("\nYou have chosen to add a card.")
-            add_card(deck, all_names, categories)
-
-        case 'e':
-            print("\nYou have chosen to edit a card..\n")
-            edit_card(deck, all_names, categories)
-            
-        case 'd':
-            print("\nYou have chosen to delete a card..\n")
-            delete_card(deck, all_names)
-
-        case 'm':
-            print("Back to the menu\n")
+    editing = True
     
+    categories, criteria, all_cards = get_cards(deck)
+    
+    while editing == True:
+        all_names = get_all_names(deck)
+        display_all_names(all_names)
+        edit_type = get_edit_type()
+        match edit_type:
+            case 'a':
+                print("\nYou have chosen to add a card.")
+                add_card(deck, all_names, categories)
+
+            case 'e':
+                print("\nYou have chosen to edit a card..\n")
+                edit_card(deck, all_names, categories)
+
+            case 'd':
+                print("\nYou have chosen to delete a card..\n")
+                delete_card(deck, all_names)
+                
+            case 'm':
+                print("Back to the menu\n")
+                editing = False
 
 
 def run_game(deck):
