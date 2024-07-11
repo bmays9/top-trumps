@@ -383,6 +383,7 @@ def add_to_deck(card, deck):
     this_sheet.append_row(card)
     print("Card has been added to the deck.\n")
 
+
 def update_deck(card, deck, card_number):
     """
     Takes the necessary information to update a row in the 
@@ -391,7 +392,7 @@ def update_deck(card, deck, card_number):
     print("Updating card deck with new data..\n")
     this_sheet = SHEET.worksheet(deck)
     row_num = card_number + 2
-    this_sheet.update(f'A{row_num}:G{row_num}', [card])
+    this_sheet.update([card], f'A{row_num}:G{row_num}')
     print("Update complete.\n")
     return True
 
@@ -402,7 +403,7 @@ def get_card_number(names):
     Validates the input and returns the card number.
     """
     while True:
-        card_num = int(input('Which card number do you want to edit?\n'))
+        card_num = int(input('Which card number?\n'))
         if card_num > 0 and card_num < len(names) + 1:
             name = names[card_num - 1]
             print(f"You have chosen card: {name}\n")
@@ -470,12 +471,25 @@ def delete_card(deck, names):
     """
     card_num, name = get_card_number(names)
     print("\nAre you sure you want to delete?\n")
-    confirm = input('Enter "Y" to confirm')
+    confirm = input('Enter "Y" to confirm\n')
     if confirm.lower() == "y":
         print("delete(card)")
+        remove_card_from_deck(card_num, deck)
     else:
         print("Card not deleted and remains in the deck")
         # quit
+
+    
+def remove_card_from_deck(card_number, deck):
+    """
+    Deletes the card_number from the worksheet identified by
+    deck parameter. Actual row in the worksheet is card number + 2
+    """
+    print("\nDeleting card from deck...")
+    row_num = card_number + 2
+    this_sheet = SHEET.worksheet(deck)
+    this_sheet.delete_rows(row_num)
+    print("Card has been removed\n")
 
 
 def edit_data(deck):
@@ -491,12 +505,21 @@ def edit_data(deck):
     edit_type = get_edit_type()
     match edit_type:
         case 'a':
+            print("\nYou have chosen to add a card.")
             add_card(deck, all_names, categories)
+
         case 'e':
+            print("\nYou have chosen to edit a card..\n")
             edit_card(deck, all_names, categories)
+            
         case 'd':
+            print("\nYou have chosen to delete a card..\n")
             delete_card(deck, all_names)
+
+        case 'm':
+            print("Back to the menu\n")
     
+
 
 def run_game(deck):
     """
