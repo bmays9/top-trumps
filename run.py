@@ -498,6 +498,48 @@ def remove_card_from_deck(card_number, deck):
     print("Card has been removed\n")
 
 
+def instructions():
+    """
+    Prints the game instructions to the terminal.
+    """
+    print("Top Trump is a card based game where the aim of the game is to ")
+    print("hold all of the cards. ")
+    print("A player wins the game when their opponent has no more cards to play.")
+    
+    print("Main Menu")
+
+    print("Choose whether you want to Play a game or Edit the cards ")
+    print("used in the game. The edit menu, you will have the option to add a new ")
+    print("card, edit or remove any card in the available decks.")
+
+    print("Playing the game.")
+
+    print("Firstly you will need to choose a deck of cards to play with. Enter the ")
+    print("deck name exactly as it is written in the list.")
+
+    print("Cards are shuffled and dealt equally between you and the computer. As ")
+    print("the player you always choose the first category. The aim of each round ")
+    print("to have a better score in that category than the computer's card. ")
+
+    print("Each player has to play the next card at the top of their hand - ")
+    print("you are forced to play the cards in order.")
+    print("With most categories it is the highest number that wins the round,")
+    print("but with a few exceptions. e.g Ranking - being ranked number 1 wins ")
+    print("over someone ranked 20 (lowest number wins).")
+    print("The winner of each round collects both cards and they are added to")
+    print("the bottom of their hand. The number of cards in each player's ")
+    print("hand is displayed at the end of each round.")
+    print("In the event of a tied round, the cards are held and are given to")
+    print("the winner of the next round. ")
+    print("The game ends when one player has no cards left to play. The player")
+    print("with all the cards wins.\n")
+    print("Editing")
+    print("Here you can Add, Remove or Edit any card in any database. ")
+    print("Add yourself as a card in the 'peoples' deck and give yourself ")
+    print("whatever score you wish in each categories - there are no ")
+    print("range limits.")
+
+
 def edit_data(deck):
     """
     Runs the program for editing the spreadsheet data.
@@ -578,23 +620,30 @@ def main():
     """
     Runs the main program
     """
+    option = "i"
 
-    option = play_or_edit()
+    while option == "i":
+        option = play_or_edit()
+        if option == "i":
+            instructions()
+
     all_decks = get_decks()
     chosen_deck = choose_deck(all_decks)
 
     if option == 'p':
-        print(f"\n{chosen_deck} deck of cards selected. \
-    Let's play Top Trumps!\n")
+        print(
+        f"\n{chosen_deck} deck selected. Let's play Top Trumps!\n")
         another_game = run_game(chosen_deck)
+
     elif option == 'i':
         instructions()
 
     elif option == 'e':
-        edit_data(chosen_deck)
+            edit_data(chosen_deck)
 
     if another_game == 'y':
         run_game(chosen_deck)
+    
     if another_game == 'm':
         main()
 
