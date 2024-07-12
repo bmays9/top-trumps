@@ -183,11 +183,15 @@ def display_both_cards(categories, card_p, card_c, selected):
     return table
 
 
-def get_winner(criteria, play, comp, turn):
+def get_winner(criteria, play, comp, p_turn):
     """
-    Takes the player and computer values for selected category, and winning
-    criteria as parameters category. Compares the values and returns the
-    result: p (player), c (computer) or t (tie) and True or False for the
+    Takes four variables as arguments
+    criteria - "h" or "l" to control if the highest or lowest number wins
+    play - the player value for the selected category
+    comp - the computer value for the selected category
+    p_turn - True or False indicating whether it was the player's turn to choose. 
+    The function compares the values and returns the result: 
+    "p" (player), "c" (computer) or "t" (tie) and True or False for the
     player_turn variable.
     """
     criteria = criteria.lower()
@@ -203,7 +207,7 @@ def get_winner(criteria, play, comp, turn):
         else:
             return "p", True
     else:
-        return "t", True, turn
+        return "t", p_turn
 
 
 def process_winner(winner, p_hand, c_hand, held):
@@ -238,6 +242,8 @@ def process_winner(winner, p_hand, c_hand, held):
             print(f"It's a tie! Cards are held for the next winner.\n")
             held.append(p_card)
             held.append(c_card)
+        
+    return held
 
 
 def end_game_check(p_cards_left, c_cards_left):
@@ -559,8 +565,8 @@ def run_game(deck):
             criteria[num], player_cards[0][num], 
             computer_cards[0][num], player_turn)
 
-        process_winner(winner, player_cards, computer_cards, held_cards)
-
+        held_cards = process_winner(winner, player_cards, computer_cards, held_cards)
+        
         if min(len(player_cards), len(computer_cards)) < 1:
             the_end = True
 
