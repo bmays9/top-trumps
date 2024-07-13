@@ -1,6 +1,3 @@
-# Your code goes here.
-# You can delete these comments, but do not change the name of this file
-# Write your code to expect a terminal of 80 characters wide and 24 rows high
 import gspread
 from google.oauth2.service_account import Credentials
 from prettytable import PrettyTable
@@ -21,7 +18,8 @@ SHEET = GSPREAD_CLIENT.open('top_trumps')
 
 def play_or_edit():
     """
-    Gets input from the user whether to play a game or edit a databse
+    Gets input from the user whether to play a game or edit a database
+    Returns the choice in lower case
     """
     print('Welcome to Top Trumps. What would you like to do?\n')
     choice = ""
@@ -51,7 +49,9 @@ def get_decks():
 
 def choose_deck(decks):
     """
-    Prompt the user to select which deck to use and return the choice
+    Takes one parameter which is a list of deck names.
+    Prompt the user to select which deck to use and validates against the list
+    Returns the validated choice
     """
     deck_choice = ""
     while deck_choice.lower() not in decks:
@@ -65,6 +65,7 @@ def choose_deck(decks):
 
 def get_cards(deck):
     """
+    Takes one parameter which is the name of the deck.
     Get the deck data from the chosen google sheet.
     First row is the catgories.
     Second row provides winning criteria for each category (high / low)
@@ -115,10 +116,11 @@ def display_game_state(num1, num2):
 
 def display_next_card(categories, card):
     """
-    Takes two lists as parameters of equal length and displays them in columns.
-    Shows the player their next card to be played.
+    Takes two lists as parameters of equal length (6) and displays them in
+    columns.
+    card = players next card and this prints it to the terminal
     """
-    print("\nHere's your next card..\n")
+    print("\nHere's your card..\n")
     table = PrettyTable()
     table.add_column("#", ["", 1, 2, 3, 4, 5, 6])
     table.add_column("Category", categories)
@@ -129,7 +131,7 @@ def display_next_card(categories, card):
 def player_choose_category():
     """
     Asks the user to input a number 1-6 corresponding to the displayed
-    categories. Returns the integer value.
+    categories. Returns the validated integer value.
     """
     valid = ["1", "2", "3", "4", "5", "6"]
     cat = ""
@@ -143,8 +145,8 @@ def player_choose_category():
 
 def computer_choose_category():
     """
-    Return an integer 1 - 6 to indicate the chosen category to display.
-    Logic is to return a random selection
+    Return an integer 1 - 6 to indicate the chosen category to play.
+    Logic is to return a random selection.
     """
     cat = random.randrange(6) + 1
     input("Press any key to see the Computer's chosen category.\n")
@@ -153,9 +155,10 @@ def computer_choose_category():
 
 def create_column(row):
     """
-    Takes an integer 1-6 as a parameter and creates a list, which is displayed
-    next to the displayed cards showing which category was chosen for this
-    comparison.
+    Takes an integer 1-6 as a parameter and creates a list. The number
+    reflects the chosen category, which is printed next to the displayed
+    cards in the terminal.
+    Returns a list of strings, with only one value.
     """
     column = [""]
     for i in range(1, 7):
@@ -168,9 +171,13 @@ def create_column(row):
 
 def display_both_cards(categories, card_p, card_c, selected):
     """
-    Takes 4 lists and displays them all as columns
-    Displays the computer card to the user as a column in the table.
-    Returns the table.
+    Takes 4 lists and displays them all as columns.
+    caatgories is the list of categories on the card.
+    card_p is the player's card
+    card_c is the computers's card
+    selected is the list
+    Function displays the computer card to the user as a column in
+    the table and returns the table.
     """
     table = PrettyTable()
     table.add_column("#", ["", 1, 2, 3, 4, 5, 6])
@@ -187,10 +194,10 @@ def get_winner(criteria, play, comp, p_turn):
     """
     Takes four variables as arguments
     criteria - "h" or "l" to control if the highest or lowest number wins
-    play - the player value for the selected category
-    comp - the computer value for the selected category
-    p_turn - True or False indicating whether it was the player's turn to choose. 
-    The function compares the values and returns the result: 
+    play - the player's card value for the selected category
+    comp - the computer's card value for the selected category
+    p_turn - True or False indicating whether it was the player's choice.
+    The function compares the values and returns the result:
     "p" (player), "c" (computer) or "t" (tie) and True or False for the
     player_turn variable.
     """
@@ -242,7 +249,7 @@ def process_winner(winner, p_hand, c_hand, held):
             print(f"It's a tie! Cards are held for the next winner.\n")
             held.append(p_card)
             held.append(c_card)
-        
+
     return held
 
 
@@ -313,7 +320,7 @@ def get_edit_type():
 
 def add_card(deck, names, cats):
     """
-    Prompts user to enter a new card name and validates against duplicates. 
+    Prompts user to enter a new card name and validates against duplicates.
     Requests entry of data and validates it.
     """
     names_lower = []
@@ -323,22 +330,22 @@ def add_card(deck, names, cats):
 
     print("Enter a new card name, (card must not already exist)")
     print("Max length = 20")
-    
+
     while True:
         new_name = input("Name:\n")
         new_name_lower = new_name.lower()
-        
+
         if validate_name(new_name_lower, names_lower):
             print("New card name accepted.\n")
             break
-    
+
     new_card.append(new_name)
     print(f'Please enter the data for {new_name}\n')
 
     new_values = get_new_card_data(cats)
-    
+
     for x in new_values:
-        new_card.append(x)    
+        new_card.append(x)
 
     add_to_deck(new_card, deck)
 
@@ -347,7 +354,7 @@ def validate_name(new, existing):
     """
     Validates user input (new) as a string and compares against
     existing names.
-    Returns True if valid input 
+    Returns True if valid input
     """
     if len(new) > 20:
         print("Name is too long, try again")
@@ -363,8 +370,8 @@ def validate_name(new, existing):
 def validate_data(data):
     """
     Takes a list as a variable. Converst all string values to
-    integers. Raises a ValueError if strings cannot be converted to 
-    integers, or if there aren't exactly numbers. 
+    integers. Raises a ValueError if strings cannot be converted to
+    integers, or if there aren't exactly numbers.
     Credit to CodeInstitute LoveSandwiches exercise for the
     basis of this code.
     """
@@ -379,7 +386,7 @@ def validate_data(data):
     except ValueError as e:
         print(f"Invalid data: {e}, please try again.\n")
         return False
-    
+
     return True
 
 
@@ -392,7 +399,7 @@ def add_to_deck(card, deck):
 
 def update_deck(card, deck, card_number):
     """
-    Takes the necessary information to update a row in the 
+    Takes the necessary information to update a row in the
     worksheet
     """
     print("Updating card deck with new data..\n")
@@ -426,14 +433,14 @@ def edit_card(deck, names, cats):
     """
     card_num, name_to_edit = get_card_number(names)
     new_row_data = [name_to_edit]
-    card = get_card_data(deck,card_num)
+    card = get_card_data(deck, card_num)
     display_next_card(cats, card)
     new_values = get_new_card_data(cats)
     for num in new_values:
         new_row_data.append(num)
     print(new_row_data)
     update_deck(new_row_data, deck, card_num)
- 
+
 
 def get_card_data(deck, card):
     '''
@@ -444,36 +451,38 @@ def get_card_data(deck, card):
     return card_data
 
 
-def get_new_card_data(cats):
+def get_new_card_data(categories):
     """
-    Takes input from the user for new card data. 
+    Cats is the list of categories
+    Takes input from the user for new card data.
     Format is 6 integers, separated by commas.
-    Returns a list of 6 integers. 
+    Returns a list of 6 integers.
     """
     while True:
-        print("Enter data for each category, in order")
+        print("Enter the data for each category, in order.")
         print("Data will be six numbers, separated by a comma.")
         print("Example: 1111, 2222, 3333333, 444, 55, 6")
-        print("Categories are:\n")
+        print("The categories are:\n")
 
-        for cat in range(1,7):
+        for cat in range(1, 7):
 
-            print(cats[cat])
+            print(categories[cat])
 
-        new_data = input("\nData: \n")
+        new_data = input("\nEnter data: \n")
         new_values = new_data.split(",")
         check = validate_data(new_values)
 
         if check:
             print("\nData is valid - card accepted\n")
             break
-    
+
     return new_values
 
 
 def delete_card(deck, names):
     """
-    Deletes a card from te deck, removes the row from the worksheet
+    Receives the deck name and the list of (card) names as arguments.
+    Deletes a card from the deck by removing the row from the worksheet
     """
     card_num, name = get_card_number(names)
     print("\nAre you sure you want to delete?\n")
@@ -483,9 +492,8 @@ def delete_card(deck, names):
         remove_card_from_deck(card_num, deck)
     else:
         print("Card not deleted and remains in the deck")
-        # quit
+        
 
-    
 def remove_card_from_deck(card_number, deck):
     """
     Deletes the card_number from the worksheet identified by
@@ -500,44 +508,45 @@ def remove_card_from_deck(card_number, deck):
 
 def instructions():
     """
-    Prints the game instructions to the terminal.
+    Prints the game instructions to the terminal and returns to the menu.
     """
-    print("Top Trump is a card based game where the aim of the game is to ")
-    print("hold all of the cards. ")
-    print("A player wins the game when their opponent has no more cards to play.")
-    
+    print("Top Trumps is a card based game where the aim of the game is to")
+    print("hold all of the cards.")
+    print("The game ends when one player has no more cards to play.")
+
     print("Main Menu")
 
-    print("Choose whether you want to Play a game or Edit the cards ")
-    print("used in the game. The edit menu, you will have the option to add a new ")
-    print("card, edit or remove any card in the available decks.")
+    print("Here you choose whether you want to Play a game or Edit the cards")
+    print("used in the game. The edit menu, you will have the option to add")
+    print("a new card, edit or remove any card in the available decks.")
 
     print("Playing the game.")
 
-    print("Firstly you will need to choose a deck of cards to play with. Enter the ")
-    print("deck name exactly as it is written in the list.")
+    print("Firstly you will need to choose a deck of cards to play with.")
+    print("Enter the deck name exactly as it is written in the list.")
 
-    print("Cards are shuffled and dealt equally between you and the computer. As ")
-    print("the player you always choose the first category. The aim of each round ")
-    print("to have a better score in that category than the computer's card. ")
-
-    print("Each player has to play the next card at the top of their hand - ")
+    print("Cards are shuffled and dealt equally between you and the")
+    print("computer. As the player you always choose the first category.")
+    print("The aim of each round is to have a better score in that category")
+    print("than the computer's card.")
+    print("Each player has to play the next card at the top of their hand")
     print("you are forced to play the cards in order.")
     print("With most categories it is the highest number that wins the round,")
-    print("but with a few exceptions. e.g Ranking - being ranked number 1 wins ")
-    print("over someone ranked 20 (lowest number wins).")
+    print("but with a few exceptions. e.g Ranking - being ranked number 1")
+    print("wins over someone ranked 20 (lowest number wins).")
     print("The winner of each round collects both cards and they are added to")
-    print("the bottom of their hand. The number of cards in each player's ")
+    print("the bottom of their hand. The winning player also chooses the")
+    print("category in the next round.\nThe number of cards in each player's")
     print("hand is displayed at the end of each round.")
     print("In the event of a tied round, the cards are held and are given to")
-    print("the winner of the next round. ")
-    print("The game ends when one player has no cards left to play. The player")
-    print("with all the cards wins.\n")
-    print("Editing")
-    print("Here you can Add, Remove or Edit any card in any database. ")
-    print("Add yourself as a card in the 'peoples' deck and give yourself ")
-    print("whatever score you wish in each categories - there are no ")
-    print("range limits.")
+    print("the winner of the next round.")
+    print("The game ends when one player has no cards left to play.")
+    print("The player with all the cards wins.\n")
+    print("Editing\n")
+    print("Here you can Add, Remove or Edit any card in any database.")
+    print("Add yourself as a card in the 'peoples' deck and give yourself")
+    print("whatever score you wish in each category - there are no")
+    print("suggested ranges!")
 
 
 def edit_data(deck):
@@ -547,10 +556,10 @@ def edit_data(deck):
     """
     print(f'You have chosen to edit the database: {deck}\n')
     editing = True
-    
+
     categories, criteria, all_cards = get_cards(deck)
-    
-    while editing == True:
+
+    while editing:
         all_names = get_all_names(deck)
         display_all_names(all_names)
         edit_type = get_edit_type()
@@ -566,7 +575,7 @@ def edit_data(deck):
             case 'd':
                 print("\nYou have chosen to delete a card..\n")
                 delete_card(deck, all_names)
-                
+
             case 'm':
                 print("Back to the menu\n")
                 editing = False
@@ -590,12 +599,12 @@ def run_game(deck):
         display_next_card(categories, player_cards[0])
         if player_turn is True:
             chosen_category = player_choose_category()
-            print(f'You have chosen to play the category: \
-{categories[chosen_category]}\n')
+            print(f'You have chosen to play the category:')
+            print(f'{categories[chosen_category]}\n')
         else:
             chosen_category = computer_choose_category()
-            print(f'The computer has chosen to play the category: \
-{categories[chosen_category]}\n')
+            print(f'The computer has chosen to play the category:')
+            print(f'{categories[chosen_category]}\n')
 
         cat_column = create_column(chosen_category)
         show = display_both_cards(
@@ -604,11 +613,12 @@ def run_game(deck):
         num = chosen_category
 
         winner, player_turn = get_winner(
-            criteria[num], player_cards[0][num], 
+            criteria[num], player_cards[0][num],
             computer_cards[0][num], player_turn)
 
-        held_cards = process_winner(winner, player_cards, computer_cards, held_cards)
-        
+        held_cards = process_winner(
+                        winner, player_cards, computer_cards, held_cards)
+
         if min(len(player_cards), len(computer_cards)) < 1:
             the_end = True
 
@@ -632,18 +642,19 @@ def main():
 
     if option == 'p':
         print(
-        f"\n{chosen_deck} deck selected. Let's play Top Trumps!\n")
+            f"\n{chosen_deck} deck selected. Let's play Top Trumps!\n")
         another_game = run_game(chosen_deck)
 
     elif option == 'i':
         instructions()
 
     elif option == 'e':
-            edit_data(chosen_deck)
+        edit_data(chosen_deck)
+        main()
 
     if another_game == 'y':
         run_game(chosen_deck)
-    
+
     if another_game == 'm':
         main()
 
