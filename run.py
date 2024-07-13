@@ -268,9 +268,9 @@ def end_game_check(p_cards_left, c_cards_left):
         print("Congratulations! You win this game!\n")
 
     print('Enter "Y" to play again with the same deck,')
-    print('"M" to return to the main menu,')
-    print('or "Q" to quit.')
-    again = input("Please choose:\n")
+    print('"M" to return to the main menu, or')
+    print('"Q" to quit.')
+    again = input("\nPlease choose:\n")
 
     return again.lower()
 
@@ -320,8 +320,12 @@ def get_edit_type():
 
 def add_card(deck, names, cats):
     """
-    Prompts user to enter a new card name and validates against duplicates.
-    Requests entry of data and validates it.
+    Takes 3 arguments and allows user to add a card to the deck.
+    deck is the deck name (worksheet name)
+    names is a list of card names in the deck
+    cats is a list of categories for that deck.
+    User is prompted to enter a new card name and validates against 
+    duplicates.
     """
     names_lower = []
     new_card = []
@@ -352,9 +356,9 @@ def add_card(deck, names, cats):
 
 def validate_name(new, existing):
     """
-    Validates user input (new) as a string and compares against
-    existing names.
-    Returns True if valid input
+    Validates user input (new) as a string and compares against the
+    'existing' list of names in the deck.
+    Returns True if valid and unique input
     """
     if len(new) > 20:
         print("Name is too long, try again")
@@ -369,9 +373,9 @@ def validate_name(new, existing):
 
 def validate_data(data):
     """
-    Takes a list as a variable. Converst all string values to
+    Takes a list 'data' as a variable. Converst all string values to
     integers. Raises a ValueError if strings cannot be converted to
-    integers, or if there aren't exactly numbers.
+    integers, or if there aren't exactly 6 numbers.
     Credit to CodeInstitute LoveSandwiches exercise for the
     basis of this code.
     """
@@ -391,6 +395,10 @@ def validate_data(data):
 
 
 def add_to_deck(card, deck):
+    """
+    Takes 2 arguments. 'card' is a list containing the new card details
+    'deck' is the name of the deck / worksheet where it will be added
+    """
     print("Updating card deck..\n")
     this_sheet = SHEET.worksheet(deck)
     this_sheet.append_row(card)
@@ -399,21 +407,26 @@ def add_to_deck(card, deck):
 
 def update_deck(card, deck, card_number):
     """
-    Takes the necessary information to update a row in the
-    worksheet
+    Takes 3 arguments
+    'card' is a list containing the new card details
+    'deck' is the name of the card deck / worksheet
+    card_number is the number of the card within the deck.
+    This is necessary information to update a row in the worksheet
+
     """
     print("Updating card deck with new data..\n")
     this_sheet = SHEET.worksheet(deck)
     row_num = card_number + 2
     this_sheet.update([card], f'A{row_num}:G{row_num}')
     print("Update complete.\n")
-    return True
 
 
 def get_card_number(names):
     """
-    Prompts the user to choose a card number to edit or delete
-    Validates the input and returns the card number.
+    Takes one parameter which is a list of names in the deck.
+    This is used to validate the input.
+    Prompts the user to choose a card number to edit or delete,
+    and returns the card number and the name of the card.
     """
     while True:
         card_num = int(input('Which card number?\n'))
@@ -510,17 +523,20 @@ def instructions():
     """
     Prints the game instructions to the terminal and returns to the menu.
     """
+    print("\n-- Top Trumps Instructions --\n")
     print("Top Trumps is a card based game where the aim of the game is to")
     print("hold all of the cards.")
     print("The game ends when one player has no more cards to play.")
 
-    print("Main Menu")
+    print("\n-- Main Menu --\n")
 
     print("Here you choose whether you want to Play a game or Edit the cards")
     print("used in the game. The edit menu, you will have the option to add")
     print("a new card, edit or remove any card in the available decks.")
 
-    print("Playing the game.")
+    input("\nPress any key to continue..\n")
+
+    print("\n-- Playing The Game --\n")
 
     print("Firstly you will need to choose a deck of cards to play with.")
     print("Enter the deck name exactly as it is written in the list.")
@@ -541,12 +557,17 @@ def instructions():
     print("In the event of a tied round, the cards are held and are given to")
     print("the winner of the next round.")
     print("The game ends when one player has no cards left to play.")
-    print("The player with all the cards wins.\n")
-    print("Editing\n")
+    print("The player with all the cards wins.")
+    
+    print("\n-- Editing --\n")
     print("Here you can Add, Remove or Edit any card in any database.")
-    print("Add yourself as a card in the 'peoples' deck and give yourself")
-    print("whatever score you wish in each category - there are no")
-    print("suggested ranges!")
+    print("Follow the on-screen instructions that will guide you through")
+    print("each process.")
+    print("Why not add yourself as a card in the 'peoples' deck and give")
+    print("yourself whatever score you wish in each category - there are no")
+    print("suggested ranges!\n")
+
+    input("\nPress any key to go back to the menu.\n")  
 
 
 def edit_data(deck):
@@ -623,7 +644,7 @@ def run_game(deck):
             the_end = True
 
     play_again = end_game_check(len(player_cards), len(computer_cards))
-    return play_again
+    return play_again.lower()
 
 
 def main():
@@ -631,6 +652,7 @@ def main():
     Runs the main program
     """
     option = "i"
+    another_game = 'm'
 
     while option == "i":
         option = play_or_edit()
@@ -653,10 +675,20 @@ def main():
         main()
 
     if another_game == 'y':
+        print(f'\nStarting a new game with deck: {chosen_deck}\n')
         run_game(chosen_deck)
 
     if another_game == 'm':
-        main()
+        print("\nReturning to Main Menu\n")
+        return True
+    
+    if another_game == 'q':
+        print(f'\nThank you for playing Top Trumps.\n')
+        print(f"Find me at https://github.com/bmays9 for more games!\n")
 
 
-main()
+back_to_menu = True
+
+while back_to_menu:
+    back_to_menu = main()
+    
