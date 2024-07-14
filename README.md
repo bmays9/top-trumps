@@ -1,32 +1,23 @@
-![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)
+# Top Trumps
 
-Welcome,
+View the live app [here](https://top-trumps1-6a9a12a49bdc.herokuapp.com/)
 
-This is the Code Institute student template for deploying your third portfolio project, the Python command-line project. The last update to this file was: **May 14, 2024**
+This app provides users with a fun online game to play in the python console and allows the user to edit all of the game data.
 
-## Reminders
+The app is targeted to people who enjoy a fast and interesting game, especially those who are already familiar with Top Trumps.
 
-- Your code must be placed in the `run.py` file
-- Your dependencies must be placed in the `requirements.txt` file
-- Do not edit any of the other files or your code may not deploy properly
+## User Expectations
 
-## Creating the Heroku app
+- The app should be easy to navigate and all game information displayed intelligently.
+- The user should be able to edit the card data used in the game.
+- The app should be fully tested and run without bugs.
 
-When you create the app, you will need to add two buildpacks from the _Settings_ tab. The ordering is as follows:
+## Flow Charts
 
-1. `heroku/python`
-2. `heroku/nodejs`
+The main menu gives the user the choice to either play a game, or edit the data. The flow of each branch of the app is displayed below.
 
-You must then create a _Config Var_ called `PORT`. Set this to `8000`
+### Gameplay Flow
+- ![Gameplay flow image](readme-images/flow1.png)
 
-If you have credentials, such as in the Love Sandwiches project, you must create another _Config Var_ called `CREDS` and paste the JSON into the value field.
-
-Connect your GitHub repository and deploy as normal.
-
-## Constraints
-
-The deployment terminal is set to 80 columns by 24 rows. That means that each line of text needs to be 80 characters or less otherwise it will be wrapped onto a second line.
-
----
-
-Happy coding!
+### Data Editing Flow
+- ![Data editing flow image](readme-images\flow2.png)
