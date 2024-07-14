@@ -60,3 +60,121 @@ Gitpod: Used for development as a cloud IDE.
 Heroku: Used to deploy the project.
 Smartdraw: Used to create flowcharts for the Readme file  (https://app.smartdraw.com/)
 CI - Python Linter: Used to validate Python code. (https://pep8ci.herokuapp.com/)
+
+## Testing
+ 
+### Validator Testing
+ 
+I used Code Institute’s Python Linter to validate the Python code. There is one remaining error which I have decide to leave unchanged. The While loop controls the game while both players have cards and the loop exits when one player has no cards. The program works without error so I decided not to change the code here.
+- ![Edit Menu](readme-images/edit-menu.png)
+
+### Manual Testing
+
+<table>
+<thead>
+  <tr>
+    <th>Test Case</th>
+    <th>Actual Result</th>
+    <th>Pass / Fail</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td>Application loads without any error messages</td>
+    <td>No error messages</td>
+    <td>Pass</td>
+  </tr>
+  <tr>
+    <td>Main Menu is displayed and awaits user input.</td>
+    <td>Welcome message and main menu are displayed and the terminal is waiting for user input</td>
+    <td>Pass</td>
+  </tr>
+  <tr>
+    <td>Main menu input is validated correctly</td>
+    <td>Incorrect input is relayed to the user and prompted to enter again</td>
+    <td>Pass</td>
+  </tr>
+  <tr>
+    <td>Main menu accepts both upper and lowercase valid characters</td>
+    <td>All values I, i, p, P, e, E are accepted</td>
+    <td>Pass</td>
+  </tr>  
+  <tr>
+    <td>Players are dealt the same number of cards when the deck has an odd number of cards</td>
+    <td>A deck was created with an odd number of cards, and the last card was removed after the shuffle. Players were dealt equal number of cards.</td>
+    <td>Pass</td>
+  </tr>
+  <tr>
+    <td>Player is able to choose category</td>
+    <td>Input is correctly validated and only values 1-6 are possible</td>
+    <td>Pass</td>
+  </tr>
+  <tr>
+    <td>Computer chooses a category at random</td>
+    <td>All category values have been observed as computer selections.</td>
+    <td>Pass</td>
+  </tr>
+  <tr>
+    <td>Winner of the round is correctly determined</td>
+    <td>Testing succesful with both High and Low value winning criteria. Correct result is printed to the terminal. </td>
+    <td>Pass</td>
+  </tr>
+  <tr>
+    <td>Winner gets the cards and chooses the next category</td>
+    <td>Tested for both player and computer wins. Cards are added to the bottom of the hand.</td>
+    <td>Pass</td>
+  </tr>
+  <tr>
+    <td>In a tied round neither player gets the cards</td>
+    <td>Created many cards with the same values to test this extensively. Game state correctly displays the number of cards held after a tie.</td>
+    <td>Pass</td>
+  </tr>
+  <tr>
+    <td>The next winner after a tied round gets the previously held cards</td>
+    <td>The right cards are held, and then after an eventual winner are assigned correctly to the winner.</td>
+    <td>Pass</td>
+  </tr>
+  <tr>
+    <td>When one player has no cards left, the game ends and a winner declared</td>
+    <td>The right winner is declared when one player has no cards left to play</td>
+    <td>Pass</td>
+  </tr>
+  <tr>
+    <td>Editing Menu input options are validated correctly</td>
+    <td>Only expected values in upper or lower case are accepted as input.</td>
+    <td>Pass</td>
+  </tr>
+  <tr>
+    <td>When Adding card, new details are validated correctly</td>
+    <td>Any deviation from the required format results in an error displayed to the user, and they are prompted to re-enter.</td>
+    <td>Pass</td>
+  </tr>
+  <tr>
+    <td>When Editing a card, the new details are validated correctly</td>
+    <td>Any deviation from the required format results in an error displayed to the user, and they are prompted to re-enter</td>
+    <td>Pass</td>
+  </tr>
+  <tr>
+    <td>When deleting a record, user confirmation is required</td>
+    <td>Only entering a Y or y confirms the deletion. Any other key returns to the menu</td>
+    <td>Pass</td>
+  </tr>
+  <tr>
+    <td>After any card edit action, the worksheet is updated correctly</td>
+    <td>All worksheets are updated correctly after a user action to add, delete or edit a card</td>
+    <td>Pass</td>
+  </tr>
+  <tr>
+    <td>After any card edit, the user is presented with an updated list of card names</td>
+    <td>The list of card names is retrieved from the worksheet after an edit, and printed to the terminal</td>
+    <td>Pass</td>
+  </tr>
+  <tr>
+    <td>After editing, the user can return to the main menu</td>
+    <td></td>
+    <td>Pass</td>
+  </tr>
+  </tbody>
+  </table>
+
+

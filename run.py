@@ -22,7 +22,7 @@ def play_or_edit():
     Returns the choice in lower case
     """
     print('\n\n*** WELCOME TO TOP TRUMPS ***\n')
-    print('A fun and challenging version of the classic game for one player.\n')
+    print('A fun and challenging version of the classic game for 1 player.\n')
     print('What would you like to do?\n')
     choice = ""
     valid = {'p', 'e', 'i'}
@@ -326,7 +326,7 @@ def add_card(deck, names, cats):
     deck is the deck name (worksheet name)
     names is a list of card names in the deck
     cats is a list of categories for that deck.
-    User is prompted to enter a new card name and validates against 
+    User is prompted to enter a new card name and validates against
     duplicates.
     """
     names_lower = []
@@ -507,7 +507,7 @@ def delete_card(deck, names):
         remove_card_from_deck(card_num, deck)
     else:
         print("Card not deleted and remains in the deck")
-        
+
 
 def remove_card_from_deck(card_number, deck):
     """
@@ -562,7 +562,7 @@ def instructions():
     print("The player with all the cards wins.")
 
     input("\nPress any key to continue..\n")
-    
+
     print("\n-- Editing --\n")
     print("Here you can Add, Remove or Edit any card in any database.")
     print("Follow the on-screen instructions that will guide you through")
@@ -571,7 +571,7 @@ def instructions():
     print("yourself whatever score you wish in each category - there are no")
     print("suggested ranges!\n")
 
-    input("\nPress any key to go back to the menu.\n")  
+    input("\nPress any key to go back to the menu.\n")
 
 
 def edit_data(deck):
@@ -655,7 +655,7 @@ def main():
     """
     Runs the main program
     """
-    
+
     option = "i"
     another_game = 'm'
 
@@ -686,7 +686,7 @@ def main():
     if another_game == 'm':
         print("\nReturning to Main Menu\n")
         return True
-    
+
     if another_game == 'q':
         print(f'\n*** THANK YOU FOR PLAYING TOP TRUMPS ***\n')
         print(f"Please visit https://github.com/bmays9 for more games!\n")
@@ -696,4 +696,3 @@ back_to_menu = True
 
 while back_to_menu:
     back_to_menu = main()
-    
