@@ -21,12 +21,14 @@ def play_or_edit():
     Gets input from the user whether to play a game or edit a database
     Returns the choice in lower case
     """
-    print('Welcome to Top Trumps. What would you like to do?\n')
+    print('\n\n*** WELCOME TO TOP TRUMPS ***\n')
+    print('A fun and challenging version of the classic game for one player.\n')
+    print('What would you like to do?\n')
     choice = ""
     valid = {'p', 'e', 'i'}
     while choice.lower() not in valid:
         choice = input("P - Play a game of Top Trumps\nE - Edit / View the \
-game data\nI - Instructions\n")
+game data\nI - Instructions\n\nEnter choice:\n")
         if choice.lower() in valid:
             return choice.lower()
         else:
@@ -558,6 +560,8 @@ def instructions():
     print("the winner of the next round.")
     print("The game ends when one player has no cards left to play.")
     print("The player with all the cards wins.")
+
+    input("\nPress any key to continue..\n")
     
     print("\n-- Editing --\n")
     print("Here you can Add, Remove or Edit any card in any database.")
@@ -651,6 +655,7 @@ def main():
     """
     Runs the main program
     """
+    
     option = "i"
     another_game = 'm'
 
@@ -683,8 +688,8 @@ def main():
         return True
     
     if another_game == 'q':
-        print(f'\nThank you for playing Top Trumps.\n')
-        print(f"Find me at https://github.com/bmays9 for more games!\n")
+        print(f'\n*** THANK YOU FOR PLAYING TOP TRUMPS ***\n')
+        print(f"Please visit https://github.com/bmays9 for more games!\n")
 
 
 back_to_menu = True
