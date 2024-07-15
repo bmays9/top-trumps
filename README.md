@@ -177,4 +177,91 @@ I used Code Institute’s Python Linter to validate the Python code. There is on
   </tbody>
   </table>
 
+## Bugs and Fixes
+
+- When entering the database name wrong once, and then correctly. The terminal displayed an error.
+The previous code was calling the function again after an invalid input. 
+To correct this I adjusted the loop controlling the input and validation so that any number of incorrect entries would not call the function again, and a valid response is always accepted. 
+
+- ![Deck error bug](readme-images/bug-1.png)
+
+- In the golfers deck, the prize money values in the spreadsheet was formatted with commas e.g. 123,456,789. This caused an error when the program tried to determine the winner. 
+As this format of entry would fail validation when adding or editing a card in the app, the solution was to reformat the data in the spreadsheet.
+
+- ![Money format bug](readme-images/bug-1.png)
+
+- When testing the logic for tied rounds (both cards have the same value), the list of held cards was not emptying after being allocated to the next winning player. The cards were assigned to the player, but the cards also remained in the held list.
+The solution was to correctly return an empty list from the function to reflect that no cards were being held.
+
+- (No screenshot available)
+
+## Deployment
+
+### How to deploy the project
+
+1. Go to [Heroku](https://id.heroku.com/login), create account if you don't have and log in.
+
+2. Head to your dashboard and click "New", then "Create new app"
+
+    <details>
+    <summary>New/CreateNewApp
+    </summary>
+              
+    ![New/CreateNewApp](/assets/images/deployment/step1-create-new-app.png)
+    </details>
+
+3. Next step is to give your app a name and to choose region. After that click on "Create app".
+
+4. After that head to "Settings" tab which you can find on top of your Heroku page and under the "Config Vars" set your Key/Value Pairs.
+
+5. Then in the "Buildpacks" section you will need to add buildpacks. Pay attention to the order in which you add buildpacks you need. In my case I had to add Python first and nodejs second.
+
+6. First add "Python", by clicking on Python icon and then click on "Add Buildpack".
+
+7. Then add "nodejs", by clicking on nodejs icon and then click on "Add Buildpack".
+
+8. Then head to "Deployment" tab which you can also find on top of your Heroku page and under "Deployment method" click on "GitHub"(in my case that's where my repository is).
+
+9. After that, just under the "Deployment method" section is "Connect to GitHub" section where you need to find your repository and then click on "Connect".
+
+10. Just under "Connect to GitHub" section is "Automatic deploys" section where you can click on "Enable Automatic Deploys" if that's what you want and just under is "Manual Deploy" section, where you need to click on "Deploy Manually".
+
+### How to clone the project
+
+1. Log into Github
+2. Go to the project repository at (https://github.com/bmays9/top-trumps)
+3. Click on the Code button and copy your preferred link.
+4. Open the terminal in your code editor and change the working directory to the location you want to use for the cloned directory.
+5. Type 'git clone' into the terminal, paste the link you copied and hit enter.
+
+
+## How to fork the repository
+
+1. Login to Github.
+2. Go to the project repository at (https://github.com/bmays9/top-trumps)
+3. Click the 'Fork' button.
+
+## Credits and References
+
+### Python Libraries
+
+Gspread - for working with Google Sheets
+
+
+### Credits
+
+- For information on using PrettyTable python library:
+https://pypi.org/project/prettytable/
+
+- For information on usage of Gspread python library:
+https://docs.gspread.org/en/latest/
+
+- To get a list of worksheet names from a Google sheet:
+https://stackoverflow.com/questions/67388393/get-list-of-all-google-sheets-using-gspread
+
+- For validation of input of 6 integers separated by a comma
+Code Institute Love Sandwiches project.
+
+- For help and guidance on the Readme file
+https://github.com/AleksandarJavorovic/coders-parkhouse/blob/main/README.md
 
