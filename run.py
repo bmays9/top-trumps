@@ -259,22 +259,25 @@ def end_game_check(p_cards_left, c_cards_left):
     """
     Takes the number of cards remaining in each hand as parameters.
     At least one of the numbers must be zero for the function to be called
-    Prints the winner to the terminal and asks user to play again.
-    Returns y or n as a string
+    Prints the winner to the terminal and asks user hot to proceed.
+    Returns 'm' (menu) or 'q' (quit) as a string
     """
     if p_cards_left == 0 and c_cards_left == 0:
         print("Game Over! It's a draw.\n")
     elif p_cards_left == 0:
-        print("Oh no! Computer wins! Better luck next time.\n")
+        print("OH NO! Computer wins! Better luck next time.\n")
     else:
-        print("Congratulations! You win this game!\n")
+        print("\nCONGRATULATIONS!!!!\n\nYou win this game!\n")
 
-    print('Enter "Y" to play again with the same deck,')
-    print('"M" to return to the main menu, or')
-    print('"Q" to quit.')
-    again = input("\nPlease choose:\n")
+    while True:
+        print('Enter "M" to return to the main menu, or')
+        print('"Q" to quit.')
+        again = input("\nPlease choose:\n")
 
-    return again.lower()
+        if again.lower() == "m" or again.lower() == "q":
+            return again.lower()
+        else:
+            print('Invalid input, please enter "M" or "Q" only.')
 
 
 def get_all_names(deck):
@@ -679,10 +682,6 @@ def main():
         edit_data(chosen_deck)
         main()
 
-    if another_game == 'y':
-        print(f'\nStarting a new game with deck: {chosen_deck}\n')
-        run_game(chosen_deck)
-
     if another_game == 'm':
         print("\nReturning to Main Menu\n")
         return True
@@ -690,6 +689,7 @@ def main():
     if another_game == 'q':
         print(f'\n*** THANK YOU FOR PLAYING TOP TRUMPS ***\n')
         print(f"Please visit https://github.com/bmays9 for more games!\n")
+        return False
 
 
 back_to_menu = True
