@@ -77,8 +77,8 @@ I chose to use the PrettyTable library as a way of displaying the card informati
 
 ### Python Libraries
 
-Gspread - for working with Google Sheets
-PrettyTable - used to display the game data in table format in the console
+- Gspread - for working with Google Sheets
+- PrettyTable - used to display the game data in table format in the console
   
 ## Testing
  
@@ -220,6 +220,8 @@ When Validating the code, the CI Python Linter tool produced an error as shown b
 
 Whilst the program was still running without errors, I changed the line of code from "while the_end == false" to "while the_end is false" which cleared the error from the linter. 
 
+NOTE:<br>
+There is an empty line at the end of the python code in the Gitpod IDE, but this is removed from the code whenever I commit to Github. 
 
 ## Deployment
 
