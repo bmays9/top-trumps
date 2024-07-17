@@ -618,7 +618,7 @@ def run_game(deck):
 
     player_cards, computer_cards = shuffle_and_deal(all_cards)
 
-    while the_end == False:
+    while the_end is False:
 
         display_game_state(len(player_cards), len(computer_cards))
         display_next_card(categories, player_cards[0])

@@ -62,7 +62,7 @@ I chose to use the PrettyTable library as a way of displaying the card informati
  
  ![Edit Menu](readme-images/edit-menu.png)
 
- ## Technologies Used
+## Technologies Used
  
 - Python: Used for all program code.
 - GitHub: Used to store the code online, version control and for deployment.
@@ -72,12 +72,19 @@ I chose to use the PrettyTable library as a way of displaying the card informati
 - CI - Python Linter: Used to validate Python code. (https://pep8ci.herokuapp.com/)
 - Google Sheets: Used to maintain the game data
 - Google Cloud: For the API between the console and Google Sheets
+
+### Python Libraries
+
+Gspread - for working with Google Sheets
+PrettyTable - used to display the game data in table format in the console
   
 ## Testing
  
 ### Validator Testing
  
-I used Code Institute’s Python Linter to validate the Python code. There is one remaining error which I have decide to leave unchanged. The While loop controls the game while both players have cards and the loop exits when one player has no cards. The program works without error so I decided not to change the code here.<br>
+I used Code Institute’s Python Linter to validate the Python code. There are no errors found in my code<br>
+
+![Final python linter check](readme-images/python-linter-clear.png)
 
 
 ### Manual Testing
@@ -128,7 +135,7 @@ I used Code Institute’s Python Linter to validate the Python code. There is on
   </tr>
   <tr>
     <td>Winner of the round is correctly determined</td>
-    <td>Testing succesful with both High and Low value winning criteria. Correct result is printed to the terminal. </td>
+    <td>Testing successful with both High and Low value winning criteria. Correct result is printed to the terminal. </td>
     <td>Pass</td>
   </tr>
   <tr>
@@ -191,21 +198,26 @@ I used Code Institute’s Python Linter to validate the Python code. There is on
 
 ## Bugs and Fixes
 
-- When entering the database name wrong once, and then correctly. The terminal displayed an error.
+When entering the database name wrong once, and then correctly. The terminal displayed an error.
 The previous code was calling the function again after an invalid input. 
 To correct this I adjusted the loop controlling the input and validation so that any number of incorrect entries would not call the function again, and a valid response is always accepted. 
 
-- ![Deck error bug](readme-images/bug-1.png)
+![Deck error bug](readme-images/bug-1.png)
 
-- In the golfers deck, the prize money values in the spreadsheet was formatted with commas e.g. 123,456,789. This caused an error when the program tried to determine the winner. 
+In the golfers deck, the prize money values in the spreadsheet was formatted with commas e.g. 123,456,789. This caused an error when the program tried to determine the winner. 
 As this format of entry would fail validation when adding or editing a card in the app, the solution was to reformat the data in the spreadsheet.
 
-- ![Money format bug](readme-images/bug-1.png)
+![Money format bug](readme-images/bug-1.png)
 
-- When testing the logic for tied rounds (both cards have the same value), the list of held cards was not emptying after being allocated to the next winning player. The cards were assigned to the player, but the cards also remained in the held list.
+When testing the logic for tied rounds (both cards have the same value), the list of held cards was not emptying after being allocated to the next winning player. The cards were assigned to the player, but the cards also remained in the held list.
 The solution was to correctly return an empty list from the function to reflect that no cards were being held.
 
-- (No screenshot available)
+When Validating the code, the CI Python Linter tool produced an error as shown below
+
+![Money format bug](readme-images/python-linter.png)
+
+Whilst the program was still running without errors, I changed the line of code from "while the_end == false" to "while the_end is false" which cleared the error from the linter. 
+
 
 ## Deployment
 
@@ -240,20 +252,14 @@ The solution was to correctly return an empty list from the function to reflect 
 5. Type 'git clone' into the terminal, paste the link you copied and hit enter.
 
 
-## How to fork the repository
+### How to fork the repository
 
 1. Login to Github.
 2. Go to the project repository at (https://github.com/bmays9/top-trumps)
 3. Click the 'Fork' button.
 
+
 ## Credits and References
-
-### Python Libraries
-
-Gspread - for working with Google Sheets
-PrettyTable - used to display the game data in table format in the console
-
-### Credits
 
 - For information on using PrettyTable python library:
 https://pypi.org/project/prettytable/
@@ -264,9 +270,13 @@ https://docs.gspread.org/en/latest/
 - To get a list of worksheet names from a Google sheet:
 https://stackoverflow.com/questions/67388393/get-list-of-all-google-sheets-using-gspread
 
-- For validation of input of 6 integers separated by a comma
+- For validation of a user input of 6 integers separated by a comma:
+Code Institute Love Sandwiches project.
+
+- For the process of creating the API, the encryption key and using Google Cloud: 
 Code Institute Love Sandwiches project.
 
 - For help and guidance on the Readme file
 https://github.com/AleksandarJavorovic/coders-parkhouse/blob/main/README.md
 
+- Thanks as always to my mentor Harry Dhillon for his support and advice which is always so valuable and very much appreciated in these projects
