@@ -6,6 +6,8 @@ This app provides users with a fun online game to play in the python console and
 
 The app is targeted to people who enjoy a fast and interesting game, especially those who are already familiar with Top Trumps.
 
+Top Trumps is a classic card game for two players, where the aim of the game is to be the player holding all of the cards. More information about the gameplay is provided in the app itself, and on [Wikipedia](https://en.wikipedia.org/wiki/Top_Trumps)
+
 
 ## User Expectations
 
